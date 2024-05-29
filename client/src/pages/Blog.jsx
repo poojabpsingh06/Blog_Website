@@ -4,6 +4,7 @@ import axios from 'axios';
 import BlogCard from '../components/BlogCard';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { Pagination } from "flowbite-react";
 
 function Blog() {
   const [term, setTerm] = useState('');
@@ -11,6 +12,10 @@ function Blog() {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [paginatedData, setPaginatedData] = useState([]);
+  const postsPerPage = 2;
+
 
   const handleSearch = () => {
     navigate(`/blogs?term=${term}`);
@@ -49,6 +54,23 @@ function Blog() {
       fetchdata();
     }
   }, [blog]);
+
+  useEffect(() => {
+
+    const getPaginatedData = () => {
+      const startIndex = (currentPage - 1) * postsPerPage;
+      const endIndex = startIndex + postsPerPage;
+      return posts.slice(startIndex, endIndex);
+    };
+
+    setPaginatedData(getPaginatedData());
+  }, [currentPage, posts]);
+
+  const totalPages = Math.ceil(posts.length / postsPerPage);
+
+
+  const onPageChange = (page) => setCurrentPage(page);
+
 
   const keyenter = (e) => {
     if (e.key === 'Enter') {
@@ -93,13 +115,7 @@ function Blog() {
           <p className="text-lg text-center">No results found</p>
 
         )
-          // : (
-          //   posts.map((post, index) => {
-          //     <div key={index} className="flex flex-col lg:flex-row justify-start items-center flex-wrap m-1 p-1">
-          //       <BlogCard post={post} />
-          //     </div>
-          //   })
-          // )
+
         }
       </div>
       <div className='flex flex-row justify-start items-center flex-wrap'>
@@ -110,11 +126,17 @@ function Blog() {
               <div key={index} className="flex flex-col lg:flex-row justify-start items-center flex-wrap m-1 p-1">
                 <BlogCard post={post} />
               </div>
+
             )
           })
+
         ) : (<div></div>)
         }
 
+      </div>
+
+      <div className="flex overflow-x-auto  sm:justify-center">
+        <Pagination layout="navigation" className='ml-0 rounded-l-lg rounded-r-lg  bg-white px-3 py-2 leading-tight text-gray-500 enabled:hover:bg-gray-100 enabled:hover:text-gray-700 ' currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
       </div>
     </div>
   )

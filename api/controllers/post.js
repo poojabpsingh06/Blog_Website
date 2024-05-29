@@ -66,8 +66,7 @@ export const singlepost = (req, res) => {
 }
 
 export const addpost = (req, res) => {
-    // res.json("from controller")
-    console.log("Add post mai theek hai")
+
     const uid = 1
 
     const q3 =
@@ -90,9 +89,27 @@ export const addpost = (req, res) => {
 }
 
 export const deletepost = (req, res) => {
-    res.json("from controller")
+    const uid = 1
+    const postId = req.params.id;
+    const q = "DELETE FROM post WHERE `id` = ? AND `uid` = ?";
+
+    db.query(q, [postId, uid], (err, data) => {
+        if (err) return res.status(403).json("You can delete only your post!");
+
+        return res.json("Post has been deleted!");
+    });
 }
 
 export const updatepost = (req, res) => {
-    res.json("from controller")
+    const uid = 1
+    const postId = req.params.id;
+    const q =
+        "UPDATE post SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
+
+    const values = [req.body.title, req.body.desc, req.body.img, req.body.cat];
+
+    db.query(q, [...values, postId, uid], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.json("Post has been updated.");
+    });
 }

@@ -6,6 +6,7 @@ import BlogCard from '../components/BlogCard';
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
 import axios from 'axios'
+import { Pagination } from "flowbite-react";
 
 
 const responsive = {
@@ -29,6 +30,9 @@ const responsive = {
 const Home = () => {
 
   const [posts, setposts] = useState([])
+  const [currentPage, setCurrentPage] = useState(1);
+  const [paginatedData, setPaginatedData] = useState([]);
+  const postsPerPage = 2;
 
   useEffect(() => {
     const fetchdata = async () => {
@@ -46,6 +50,22 @@ const Home = () => {
     fetchdata()
 
   }, [])
+
+  useEffect(() => {
+    
+    const getPaginatedData = () => {
+      const startIndex = (currentPage - 1) * postsPerPage;
+      const endIndex = startIndex + postsPerPage;
+      return posts.slice(startIndex, endIndex);
+    };
+
+    setPaginatedData(getPaginatedData());
+  }, [currentPage, posts]);
+
+  const totalPages = Math.ceil(posts.length / postsPerPage);
+
+
+  const onPageChange = (page) => setCurrentPage(page);
 
   // const posts = [
   //   {
@@ -164,7 +184,7 @@ const Home = () => {
       <h1 className='font-noto text-2xl m-10 '>Recent Blog Post</h1>
       <div className='flex flex-row justify-start items-center flex-wrap'>
         {
-          posts.map((post, index) => {
+          paginatedData.map((post, index) => {
             return (
               <div key={index} className="flex flex-row justify-start items-center flex-wrap m-1 p-5">
                 <BlogCard post={post} />
@@ -179,6 +199,9 @@ const Home = () => {
           //   <p className="text-lg text-center">No posts available</p>
           // )
         }
+      </div>
+      <div className="flex overflow-x-auto  sm:justify-center">
+        <Pagination layout="navigation" className='ml-0 rounded-l-lg rounded-r-lg  bg-white px-3 py-2 leading-tight text-gray-500 enabled:hover:bg-gray-100 enabled:hover:text-gray-700 ' currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
       </div>
     </div>
   );

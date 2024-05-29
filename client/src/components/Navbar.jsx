@@ -27,7 +27,7 @@ function Navbar({ currentUser, logout }) {
                                 aria-expanded={dropdownOpen}
                             >
                                 <span className="sr-only">Open user menu</span>
-                                <img className="w-8 h-8 rounded-full" src={Logo} alt="User profile" />
+                                <img className="w-8 h-8 rounded-full" src={"https://i.pinimg.com/236x/e8/e6/41/e8e64141f4c0ae39c32f9701ccea9a2e.jpg"} alt="User profile" />
                             </button>
                             {dropdownOpen && (
                                 <div className="z-50 absolute top-12 right-4 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
@@ -67,7 +67,7 @@ function Navbar({ currentUser, logout }) {
                         </svg>
                     </button>
                 </div>
-                <div className={` text-2xl items-center justify-between w-full md:flex md:w-auto md:order-1 ${menuOpen ? 'flex' : 'hidden'}`}>
+                <div className={` text-xl items-center justify-between w-full md:flex md:w-auto md:order-1 ${menuOpen ? 'flex' : 'hidden'}`}>
                     <ul className="flex flex-col font-medium p-4 w-full md:p-0 mt-4 border border-gray-100 rounded-lg text-black bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white md:dark:bg-white dark:bg-white">
                         <li>
                             <Link to="/posts" className="block animate-T1 py-2 px-3 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-black md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Home</Link>
