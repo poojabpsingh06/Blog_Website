@@ -54,9 +54,15 @@ export const getpost = (req, res) => {
 export const singlepost = (req, res) => {
 
 
-    const q2 = "SELECT  `p.idpost`, `u.username`, `p.title`, `p.desc`, `p.img` , u.img AS userImg FROM user u JOIN post p ON u.iduser = p.uid WHERE p.idpost = ? ";
-
+    const q2 = `
+    SELECT p.idpost, u.username, p.title, p.desc, p.img, u.img AS userImg
+    FROM user u
+    JOIN post p ON u.iduser = p.uid
+    WHERE p.idpost = ?;
+  ` ;
+    // console.log(idpost+ " this is idpost");
     db.query(q2, [req.params.idpost], (err, data) => {
+        // console.log(idpost+ " this is idpost");
         if (err) return res.status(500).json(err);
 
 

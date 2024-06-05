@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 export const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "dhruva",
+    password: "",
     database: "blog"
 })
 

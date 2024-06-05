@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.get("/post", getposts)
 router.get("/blogs", getpost)
-router.get("post/:idpost", singlepost)
+router.get("/post/:idpost", singlepost)
 router.post("/write", addpost)
 router.delete("/:id", deletepost)
 router.put("/:id", updatepost)
